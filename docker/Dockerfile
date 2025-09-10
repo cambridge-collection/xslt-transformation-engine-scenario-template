@@ -1,5 +1,6 @@
-FROM ghcr.io/cambridge-collection/xslt-transformation-engine@sha256:264a6238bc3e2eba23092a23b6afcc7e766a8414941c45b00a62751555e47fa7
+FROM ghcr.io/cambridge-collection/xslt-transformation-engine@sha256:c599026287dcb16b6fd170f20c80efe8dc1ff0a1e45f378dfdcb1dc893c562bd
 
+WORKDIR /opt/cdcp
 COPY *bin bin
 COPY --chmod=0755 ./pre.sh* ${LAMBDA_TASK_ROOT}
 COPY --chmod=0755 ./post.sh* ${LAMBDA_TASK_ROOT}
