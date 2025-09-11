@@ -9,6 +9,10 @@
         "preset": "conventionalcommits",
         "releaseRules": [
           {
+            "type": "build",
+            "release": "patch"
+          },
+          {
             "type": "chore",
             "release": "patch"
           },
@@ -24,29 +28,16 @@
       }
     ],
     [
-      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
       {
-        "preset": "conventionalcommits",
-        "releaseRules": [
-          {
-            "type": "chore",
-            "release": "patch"
-          },
-          {
-            "type": "docs",
-            "release": "patch"
-          },
-          {
-            "type": "refactor",
-            "release": "patch"
-          }
-        ]
+        "preset": "conventionalcommits"
       }
     ],
     [
       "@semantic-release/github",
       {
-        "successComment": "This ${issue.pull_request ? 'Pull Request is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:",
+        "successComment": false,
+        "failComment": false,
         "labels": false,
         "releasedLabels": false
       }
