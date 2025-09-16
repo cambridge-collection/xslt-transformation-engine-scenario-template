@@ -7,14 +7,16 @@ services:
     environment:
       ENVIRONMENT: standalone
       INSTANCE_NAME: ${INSTANCE_NAME:-my-xte-scenario}
-      TEI_FILE: ${TEI_FILE:-**/*.xml}
+      TEI_FILE: "${TEI_FILE:-**/*.xml}"
+      CHANGED_FILES_FILE: ${CHANGED_FILES_FILE:-}
       ANT_BUILDFILE: ${ANT_BUILDFILE:-bin/build.xml}
+      ANT_TARGET: ${ANT_TARGET:-full}
       XSLT_ENTRYPOINT: ${XSLT_ENTRYPOINT:-xslt/TEI-to-HTML.xsl}
       OUTPUT_EXTENSION: ${OUTPUT_EXTENSION:-html}
-      EXPAND_DEFAULT_ATTRIBUTES: ${EXPAND_DEFAULT_ATTRIBUTES:-false}
-      ANT_TARGET: ${ANT_TARGET:-full}
       ALLOW_DELETE: false
+      EXPAND_DEFAULT_ATTRIBUTES: ${EXPAND_DEFAULT_ATTRIBUTES:-false}
       ANT_LOG_LEVEL: ${ANT_LOG_LEVEL:-default}
+      WELLFORMEDNESS_FILTER: ${WELLFORMEDNESS_FILTER:-true}
     volumes:
       - ./out:/tmp/opt/cdcp/out:rw
       - ./source:/tmp/opt/cdcp/source:rw

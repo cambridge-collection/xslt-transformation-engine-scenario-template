@@ -1,4 +1,4 @@
-FROM ghcr.io/cambridge-collection/xslt-transformation-engine@sha256:9cb41a6fc7598400b9490d13ee2c7a55cb77a2b2ea32ee9196de7a7107c267d8
+FROM ghcr.io/cambridge-collection/xslt-transformation-engine@sha256:a922c0fc5ce56a8a746358d3b055ced1a8f584186df994212720da1afc3c75f2
 
 WORKDIR /opt/cdcp
 COPY *bin bin

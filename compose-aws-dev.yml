@@ -1,11 +1,12 @@
 services:
   aws-dev:
+    platform: linux/amd64
     build:
       context: ./docker
       dockerfile: Dockerfile
     container_name: ${INSTANCE_NAME:-my-xte-scenario}-aws-dev
     environment:
-      ENVIRONMENT: aws-local
+      ENVIRONMENT: aws-dev
       INSTANCE_NAME: ${INSTANCE_NAME:-my-xte-scenario}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
