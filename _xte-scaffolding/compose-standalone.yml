@@ -18,6 +18,5 @@ services:
       ANT_LOG_LEVEL: ${ANT_LOG_LEVEL:-default}
       WELLFORMEDNESS_FILTER: ${WELLFORMEDNESS_FILTER:-true}
     volumes:
-      - ./out:/tmp/opt/cdcp/out:rw
-      - ./source:/tmp/opt/cdcp/source:rw
-    entrypoint: [ "bash", "-lc", "/var/task/standalone.sh" ]
+      - ../out:/tmp/opt/cdcp/out:rw
+      - ../source:/tmp/opt/cdcp/source:rw

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="xte-sample" default="full" xmlns:fs="antlib:cudl.fs">
+
+    <target name="run.prehook">
+        <!-- Define prehook.out.dir outside of target before importing core.xml -->
+        <!-- Data source: source.dir Data output: prehook.out.dir -->
+        <echo message="Local prehook not yet supported"/>
+        </target>
+    
+    <target name="local-transform.before" extensionOf="before-transform">
+        <!-- Define transform.before.out.dir outside of target before importing core.xml -->
+        <!-- Data source: wellformedness.out.dir Data output: transform.before.out.dir -->
+        <echo message="Running local transform.before"/>
+        <mkdir dir="${transform.after.out.dir}" />
+    </target>
+    
+    <target name="local-transform.after" extensionOf="after-transform">
+        <!-- Define transform.after.out.dir outside of target before importing core.xml -->
+        <!-- Data source: transform.out Data output: transform.after.out.dir -->
+        <echo message="Running local transform.after" level="info"/>
+        
+        <retry retrycount="6">
+            <delete dir="${tmp.dir}" failonerror="no" />
+        </retry>
+
+        <fs:select-files dir="${transform.before.out.dir}" pattern="${files-to-process}" includesFile="${includes_file}" filesetId="original_xml_for_solr"/>
+
+        <!--<fs:xslt-transform filesetrefid="original_xml_for_solr" 
+                           xslt="../xslt/solr.xsl" 
+                           extension=".json"
+                           dest="${transform.after.out.dir}"
+                           expand-default-attributes="${expand-default-attributes}" />-->
+    
+    </target>
+    
+    <target name="local-release.before" extensionOf="before-release-outputs">
+        <!-- Define release.before.out.dir outside of target before importing core.xml -->
+        <!-- Data source: transform.after.out.dir Data output: release.before.out.dir -->
+        <echo message="Running local release.before"/>
+    </target>
+    
+    <target name="local-release" extensionOf="after-release-outputs">
+        <!-- Define release.out.dir outside of target before importing core.xml -->
+        <!-- Data source: release.before.out.dir Data output: release.out.dir -->
+        <echo message="Running local release"/>
+    </target>
+    
+    <target name="run.posthook">
+        <!-- Define prehook.out.dir outside of target before importing core.xml -->
+        <!-- Data source: release.out.dir Data output: prehook.out.dir -->
+        <echo message="Local posthook not yet supported"/>
+        </target>
+
+    <import file="./xte/core.xml"/>
+    
+</project>

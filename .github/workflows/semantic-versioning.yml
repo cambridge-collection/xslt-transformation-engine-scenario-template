@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   release:
+    if: github.repository == 'cambridge-collection/xslt-transformation-engine-scenario-template'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
