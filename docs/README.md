@@ -17,10 +17,10 @@ This repository provides a base template for rolling your own implementation of 
    - For a new repository, click `Use this template` in GitHub and fill in the dialog to create your new repository. Then, use git clone to create a local copy on your hard drive.
    - For an existing repository, follow the import workflow described in [Staying in Sync with the Template Repository](#staying-in-sync-with-the-template-repository).
 2. Create a working branch in your repository for your customisations. If you use a branch other than `main`, set it as the default under Settings -> General.
-3. Copy your XSLT into `./docker/xslt`.
-4. Define the `XSLT_ENTRYPOINT` environment variable so that it points to your custom xslt. This variable takes `./docker` as its root. If your custom XSLT were is `xslt/my-custom.xsl`, `XSLT_ENTRYPOINT` would be set to `xslt/my-custom.xsl`.
+3. Copy your XSLT into `_xte-scaffolding/docker/xslt`.
+4. Define the `XSLT_ENTRYPOINT` environment variable so that it points to your custom xslt. This variable takes `_xte-scaffolding/docker` as its root. If your custom XSLT were `xslt/my-custom.xsl`, `XSLT_ENTRYPOINT` would be set to `xslt/my-custom.xsl`.
 5. Set any other required and optional environment variables that might need changing. See <https://github.com/cambridge-collection/xslt-transformation-engine?tab=readme-ov-file#required-environment-variables-for-both-aws-and-standalone-versions> for a list of all the available variables.
-6. Test your container locally by using the docker compose file for your specific environment (_i.e._ `compose-aws.yml` for AWS or `compose-standalone.yml` for standalone) as per the instructions on <https://github.com/cambridge-collection/xslt-transformation-engine>.
+6. Test your container locally by using the docker compose file for your specific environment (_i.e._ `_xte-scaffolding/compose-aws.yml` for AWS or `_xte-scaffolding/compose-standalone.yml` for standalone) as per the instructions on <https://github.com/cambridge-collection/xslt-transformation-engine>.
 
 ### Required Environment Variables (common to AWS and standalone)
 
@@ -94,12 +94,12 @@ Properties such as `source.dir` (must remain `../source`) and `release.out.dir` 
 
 #### Using the Sample Build
 
-The sample Ant build at `examples/build/build.xml` demonstrates how to import the core build and override extension points. Copy it into `./docker/bin` (for example as `sample-importing.xml`) when you want to experiment without altering `bin/build.xml`:
+The sample Ant build at `_xte-scaffolding/examples/build/build.xml` demonstrates how to import the core build and override extension points. Copy it into `_xte-scaffolding/docker/bin` (for example as `sample-importing.xml`) when you want to experiment without altering `bin/build.xml`:
 
 ```bash
-cp examples/build/build.xml docker/bin/sample-importing.xml
+cp _xte-scaffolding/examples/build/build.xml _xte-scaffolding/docker/bin/sample-importing.xml
 export ANT_BUILDFILE=bin/sample-importing.xml \
-docker compose --env-file ./examples/env/sample.env -f compose-standalone.yml up --force-recreate --build
+docker compose --env-file ./_xte-scaffolding/examples/env/sample.env -f _xte-scaffolding/compose-standalone.yml up --force-recreate --build
 ```
 
 Before starting the standalone compose stack, make sure the host has the expected mount points:
@@ -111,11 +111,11 @@ Before starting the standalone compose stack, make sure the host has the expecte
 
 For more complex scenarios you can supply your own Ant build file. Place it under `./docker/bin` (for example `docker/bin/my-build.xml`) and set `ANT_BUILDFILE` to point to it. Import `docker/bin/xte/core.xml` within your custom file to reuse the shared pipeline and override the targets you need.
 
-You can start from the sample at `examples/build/build.xml`: copy it into `./docker/bin` and adapt the hooks/targets to your scenario before pointing `ANT_BUILDFILE` at it.
+You can start from the sample at `_xte-scaffolding/examples/build/build.xml`: copy it into `_xte-scaffolding/docker/bin` and adapt the hooks/targets to your scenario before pointing `ANT_BUILDFILE` at it.
 
 ### Example GitHub Action: Semantic Release for Scenario Repos
 
-Use the sample workflow at `examples/gh_actions/semantic-versioning.yml` when you want automated semantic versioning in a scenario repository:
+Use the sample workflow at `_xte-scaffolding/examples/gh_actions/semantic-versioning.yml` when you want automated semantic versioning in a scenario repository:
 
 - Copy the file into `.github/workflows/semantic-versioning.yml` (or a name of your choosing).
 - It checks out the repository and runs `semantic-release` to tag the current commit (`v${version}`) and publish release notes back to GitHub using `${{ secrets.GITHUB_TOKEN }}`.
@@ -125,7 +125,7 @@ Use the sample workflow at `examples/gh_actions/semantic-versioning.yml` when yo
 
 ### Example GitHub Action: Maintain Output Snapshots and Sync to S3
 
-The workflow at `examples/gh_actions/build-and-release.yml` rebuilds XML outputs when the `release` branch changes (or on manual dispatch) and keeps an S3 bucket in sync.
+The workflow at `_xte-scaffolding/examples/gh_actions/build-and-release.yml` rebuilds XML outputs when the `release` branch changes (or on manual dispatch) and keeps an S3 bucket in sync.
 
 - Checks out the repository with full history so it can diff against the prior success tag.
 - Calculates the transform scope (`changed` vs `all`) and records affected files in `source/changed-files.txt` and `source/deleted-files.txt`.
@@ -235,7 +235,7 @@ You need to setup AWS and GitHub configuration for least-privilege uploads
 
 ## Test Messages for locally-running AWS and AWS Lambda
 
-The `test` directory contains three sample notifications. These notifications can be used to test the functioning of both an AWS instance running locally and in an actual AWS lambda. All three will need to be customised with your source bucket name and sample TEI file name as per the instructions below:
+The `_xte-scaffolding/test` directory contains three sample notifications. These notifications can be used to test the functioning of both an AWS instance running locally and in an actual AWS lambda. All three will need to be customised with your source bucket name and sample TEI file name as per the instructions below:
 
 1. `tei-source-changed.json` triggers the XSLT transformation process by notifying the lambda that the TEI resource mentioned within it has been changed.
 2. `./test/tei-source-removed.json` simulates the removal of the TEI item from the source bucket. It purges all its derivative files from the output bucket.
