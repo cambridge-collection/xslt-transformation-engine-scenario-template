@@ -256,7 +256,7 @@ jobs:
             fi
           fi
 
-          docker compose -f compose-standalone.yml up --build --force-recreate --exit-code-from standalone
+          docker compose -f _xte-scaffolding/compose-standalone.yml up --build --force-recreate --exit-code-from standalone
           rm -f "$HOST_CHANGED_LIST"
 
       - name: Sync outputs to S3
@@ -315,4 +315,4 @@ jobs:
       - name: Tear down containers
         if: always()
         run: |
-          docker compose -f compose-standalone.yml down -v || true
+          docker compose -f _xte-scaffolding/compose-standalone.yml down -v || true
